@@ -1,3 +1,12 @@
+---
+title: Lens CustomerIQ
+emoji: 📊
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 8501
+pinned: false
+---
 # Lens CustomerIQ
 
 Customer segments and churn prediction for shops (DPO-100, AI/ML internship project).
