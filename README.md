@@ -1,18 +1,13 @@
----
-title: Lens CustomerIQ
-emoji: 📊
-colorFrom: blue
-colorTo: indigo
-sdk: docker
-app_port: 8501
-pinned: false
----
 # Lens CustomerIQ
 
 Customer segments and churn prediction for shops (DPO-100, AI/ML internship project).
 
 Takes a shop's sales history and answers two questions: **who are my best customers?** and **who is about to stop buying?**
+## Live demo
 
+- Dashboard (Streamlit): https://lens-customeriq-pyrjhbwylabxokxm3tukwr.streamlit.app
+- Hugging Face Space (embeds the dashboard): https://huggingface.co/spaces/tamjad549/lens-customeriq
+- API: runs locally, see "Run the API" below. The free Hugging Face plan no longer runs Python Spaces, so the dashboard is hosted on Streamlit Community Cloud.
 ## What it does
 
 - Cleans the sales data and builds RFM features (Recency, Frequency, Monetary) for every customer
