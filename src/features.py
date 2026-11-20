@@ -24,9 +24,11 @@ def clean_transactions(df):
     df["InvoiceDate"] = pd.to_datetime(df["InvoiceDate"])
     df["Customer ID"] = df["Customer ID"].astype(int)
     df["TotalPrice"] = df["Quantity"] * df["Price"]
-    q_limit = df["Quantity"].quantile(0.999)
-    p_limit = df["Price"].quantile(0.999)
-    return df[(df["Quantity"] <= q_limit) & (df["Price"] <= p_limit)]
+    if len(df) >= 1000:  # outlier trimming only makes sense on a big file
+       q_limit = df["Quantity"].quantile(0.999)
+       p_limit = df["Price"].quantile(0.999)
+       df = df[(df["Quantity"] <= q_limit) & (df["Price"] <= p_limit)]
+    return df
 
 
 def build_features(df, snapshot=None):

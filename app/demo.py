@@ -47,8 +47,13 @@ def load_models():
 
 @st.cache_data(show_spinner="Analysing customers...")
 def analyse(file_bytes):
-    raw = pd.read_csv(io.BytesIO(file_bytes))
+    try:
+        raw = pd.read_csv(io.BytesIO(file_bytes))
+    except Exception:
+        raise ValueError("Could not read this file. Please upload a valid CSV file.")
     clean = F.clean_transactions(raw)
+    if len(clean) == 0:
+        raise ValueError("No usable rows were found after cleaning. Please check the file.")
     feat = F.build_features(clean)
     scaler, km, model = load_models()
     result = F.predict_churn(F.assign_segments(feat, scaler, km), model)
@@ -174,7 +179,7 @@ with tab3:
 
     calls = result[result["Segment"].isin(segs) & (result["Risk %"] >= threshold)]
     sort_col = "Risk %" if sort_by == "Churn risk" else "Monetary"
-    calls = calls.sort_values(sort_col, ascending=False).copy()
+    calls = result[result["Segment"].isin(segs) & (result["ChurnRisk"] >= threshold / 100)]
     if len(calls) > 0:
         calls["Main reasons"] = top_reasons(model, calls, result)
     else:
