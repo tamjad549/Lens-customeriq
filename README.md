@@ -99,7 +99,7 @@ Open http://127.0.0.1:8000/docs and try `POST /predict` with:
 ## Notes and limits
 
 - SHAP shows what the model uses to decide, not what causes customers to leave.
-- Uploaded files are not saved anywhere, and no real customer data is stored in this repository.
+- Uploaded files are not written to disk, and the results are kept in memory for at most 30 minutes. No real customer data is stored in this repository.
 - Only transaction data is used, so the model cannot see things like prices, promotions or competitors.
 
 ## Author

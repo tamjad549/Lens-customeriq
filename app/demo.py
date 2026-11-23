@@ -45,7 +45,7 @@ def load_models():
     return scaler, km, model
 
 
-@st.cache_data(show_spinner="Analysing customers...")
+@st.cache_data(ttl=1800, max_entries=3, show_spinner="Analysing customers...")
 def analyse(file_bytes):
     try:
         raw = pd.read_csv(io.BytesIO(file_bytes))
@@ -177,9 +177,9 @@ with tab3:
     threshold = c2.slider("Minimum churn risk %", 0, 100, 70, 5)
     sort_by = c3.selectbox("Sort by", ["Churn risk", "Past spend (money at stake)"])
 
-    calls = result[result["Segment"].isin(segs) & (result["Risk %"] >= threshold)]
-    sort_col = "Risk %" if sort_by == "Churn risk" else "Monetary"
     calls = result[result["Segment"].isin(segs) & (result["ChurnRisk"] >= threshold / 100)]
+    sort_col = "Risk %" if sort_by == "Churn risk" else "Monetary"
+    calls = calls.sort_values(sort_col, ascending=False).copy()
     if len(calls) > 0:
         calls["Main reasons"] = top_reasons(model, calls, result)
     else:
